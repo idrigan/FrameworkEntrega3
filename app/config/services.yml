@@ -1,0 +1,132 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+
+  #actor
+
+  entrega3.actor.usecase.newactor:
+    class: Entrega3\Component\Application\Actor\UseCase\NewActorUseCase
+    arguments:
+      actorRepository: '@app.repository.actor'
+      entityManager: '@doctrine.orm.entity_manager'
+      dispatcher: '@event_dispatcher'
+
+  entrega3.actor.usecase.listactor:
+    class: Entrega3\Component\Application\Actor\UseCase\ListActorUseCase
+    arguments:
+      actorRepository: '@app.repository.actor'
+      entityManager: '@doctrine.orm.entity_manager'
+      dispatcher: '@event_dispatcher'
+
+  entrega3.actor.usecase.deleteactor:
+    class: Entrega3\Component\Application\Actor\UseCase\DeleteActorUseCase
+    arguments:
+      actorRepository: '@app.repository.actor'
+      entityManager: '@doctrine.orm.entity_manager'
+      dispatcher: '@event_dispatcher'
+
+  entrega3.actor.usecase.getactor:
+    class: Entrega3\Component\Application\Actor\UseCase\GetActorUseCase
+    arguments:
+      actorRepository: '@app.repository.actor'
+      entityManager: '@doctrine.orm.entity_manager'
+      dispatcher: '@event_dispatcher'
+
+
+  #film
+  entrega3.film.usecase.newfilm:
+    class: Entrega3\Component\Application\Film\UseCase\NewFilmUseCase
+    arguments:
+      filmRepository: '@app.repository.film'
+      actorRepository: '@app.repository.actor'
+      entityManager: '@doctrine.orm.entity_manager'
+      dispatcher: '@event_dispatcher'
+
+  entrega3.film.usecase.listfilm:
+    class: Entrega3\Component\Application\Film\UseCase\ListFilmUseCase
+    arguments:
+      filmRepository: '@app.repository.film'
+      entityManager: '@doctrine.orm.entity_manager'
+      dispatcher: '@event_dispatcher'
+
+  entrega3.film.usecase.deletefilm:
+    class: Entrega3\Component\Application\Film\UseCase\DeleteFilmUseCase
+    arguments:
+      filmRepository: '@app.repository.film'
+      entityManager: '@doctrine.orm.entity_manager'
+      dispatcher: '@event_dispatcher'
+
+  entrega3.film.usecase.updatefilm:
+    class: Entrega3\Component\Application\Film\UseCase\UpdateFilmUseCase
+    arguments:
+      filmRepository: '@app.repository.film'
+      actorRepository: '@app.repository.actor'
+      entityManager: '@doctrine.orm.entity_manager'
+      dispatcher: '@event_dispatcher'
+
+  entrega3.film.usecase.getfilm:
+    class: Entrega3\Component\Application\Film\UseCase\GetFilmUseCase
+    arguments:
+      filmRepository: '@app.repository.film'
+      actorRepository: '@app.repository.actor'
+      entityManager: '@doctrine.orm.entity_manager'
+      dispatcher: '@event_dispatcher'
+
+
+  app.actor.metadata:
+    class: Doctrine\ORM\Mapping\ClassMetadata
+    factory_service: doctrine # this is an instance of Registry
+    factory_method: getRepository
+    arguments: [ Entrega3\Component\Domain\Entity\Actor ]
+
+  app.film.metadata:
+      class: Doctrine\ORM\Mapping\ClassMetadata
+      factory_service: doctrine # this is an instance of Registry
+      factory_method: getRepository
+      arguments: [ Entrega3\Component\Domain\Entity\Film ]
+
+
+
+#repository
+  app.repository.actor:
+    class: Entrega3\AppBundle\ActorBundle\Repository\ActorRepositoryImpl # this extends EntityRepository
+    arguments:
+      em: '@doctrine.orm.entity_manager'
+      mapping: '@app.actor.metadata'
+
+  app.repository.film:
+      class: Entrega3\AppBundle\FilmBundle\Repository\FilmRepositoryImpl # this extends EntityRepository
+      arguments:
+        em: '@doctrine.orm.entity_manager'
+        mapping: '@app.film.metadata'
+
+
+#console
+
+  app.command.film.create:
+    class: Entrega3\AppBundle\FilmBundle\Command\CreateFilmCommand
+    arguments: ['@entrega3.film.usecase.newfilm']
+    tags:
+      - { name: console.command }
+
+  app.command.film.update:
+    class: Entrega3\AppBundle\FilmBundle\Command\UpdateFilmCommand
+    arguments: ['@entrega3.film.usecase.updatefilm']
+    tags:
+      - { name: console.command }
+
+  app.command.film.delete:
+      class: Entrega3\AppBundle\FilmBundle\Command\DeleteFilmCommand
+      arguments: ['@entrega3.film.usecase.deletefilm']
+      tags:
+        - { name: console.command }
+
+  app.command.film.list:
+      class: Entrega3\AppBundle\FilmBundle\Command\ListFilmCommand
+      arguments: ['@entrega3.film.usecase.listfilm']
+      tags:
+        - { name: console.command }
+

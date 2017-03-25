@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>{{ "title" | trans }}</h1>
+
+    <label>{{ "film.title" | trans }}:</label> {{ film.name }}<br>
+    <label>{{ "film.actor" | trans }}:</label> {{ film.actor }}<br>
+    <label>{{ "film.description" | trans }}:</label> {{ film.description }}<br>
+
+
+{% endblock %}

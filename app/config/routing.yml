@@ -1,0 +1,58 @@
+#app:
+#    resource: "@AppBundle/Controller/"
+#    type:     annotation
+
+#API/REST
+
+#Actors
+
+actor_list_api:
+  path: /api/actor/
+  defaults: { _controller: \Entrega3\AppBundle\ActorBundle\Api\Controller\ListActorController::execute }
+  methods: [GET]
+
+actor_create:
+  path: /api/actor/
+  defaults: { _controller: \Entrega3\AppBundle\ActorBundle\Api\Controller\CreateActorController::execute }
+  methods: [POST]
+
+actor_delete:
+  path: /api/actor/{id}/
+  defaults: { _controller: \Entrega3\AppBundle\ActorBundle\Api\Controller\DeleteActorController::execute }
+  methods: [DELETE]
+
+#Page/multi-idioma
+
+actor:
+  path: /actor/{id}/
+  defaults: { _controller: \Entrega3\AppBundle\ActorBundle\Controller\ActorController::execute }
+  methods: [GET]
+
+#Films
+
+
+film_list_api:
+  path: /api/film/
+  defaults: { _controller: \Entrega3\AppBundle\FilmBundle\Api\Controller\ListFilmController::execute }
+  methods: [GET]
+
+film_create:
+  path: /api/film/
+  defaults: { _controller: \Entrega3\AppBundle\FilmBundle\Api\Controller\CreateFilmController::execute }
+  methods: [POST]
+
+film_delete:
+  path: /api/film/{id}/
+  defaults: { _controller: \Entrega3\AppBundle\FilmBundle\Api\Controller\DeleteFilmController::execute }
+  methods: [DELETE]
+
+film_update:
+  path: /api/film/{id}/
+  defaults: { _controller: \Entrega3\AppBundle\FilmBundle\Api\Controller\UpdateFilmController::execute }
+  methods: [PUT]
+
+#Page/multi-idioma
+film:
+  path: /film/{id}/
+  defaults: { _controller: \Entrega3\AppBundle\FilmBundle\Controller\FilmController::execute }
+  methods: [GET]
